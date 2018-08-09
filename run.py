@@ -152,7 +152,7 @@ def process_post(submission):
 
 if __name__ == "__main__":
     reddit = praw.Reddit('opendirectories-bot',
-                         user_agent='github.com/simon987/opendirectories-bot-new (by /u/Hexahedr_n)')
+                         user_agent='github.com/simon987/opendirectories-bot-2 (by /u/Hexahedr_n)')
     bot = RedditBot("processed.txt", reddit)
     subreddit = reddit.subreddit("test")
 

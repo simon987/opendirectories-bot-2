@@ -113,10 +113,8 @@ class OdDatabase:
             hl_path = truncate_path(hl_path, 65)
             hl_path += "/" if hl_path else ""
 
-            file_link = src["website_url"] + src["path"] + "/" + src["name"] + ("." if src["ext"] else "") + src["ext"]
-
             message += "[" + src["website_url"] + "](https://od-db.the-eye.eu/website/" + str(src["website_id"]) + "/)" + hl_path
-            message += hl_name + ("." if src["ext"] else "") + src["ext"] + " [[DL]](" + file_link + ") | "
+            message += hl_name + ("." if src["ext"] else "") + src["ext"] + " | "
             message += humanfriendly.format_size(src["size"]) + " | "
             message += time.strftime("%Y-%m-%d", time.gmtime(src["mtime"])) + "    \n"
 
