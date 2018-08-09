@@ -113,12 +113,14 @@ class OdDatabase:
             hl_path = truncate_path(hl_path, 65)
             hl_path += "/" if hl_path else ""
 
+            file_link = src["website_url"] + src["path"] + "/" + src["name"] + ("." if src["ext"] else "") + src["ext"]
+
             message += "[" + src["website_url"] + "](https://od-db.the-eye.eu/website/" + str(src["website_id"]) + "/)" + hl_path
-            message += hl_name + ("." if src["ext"] else "") + src["ext"] + "| "
+            message += hl_name + ("." if src["ext"] else "") + src["ext"] + " [[DL]](" + file_link + ") | "
             message += humanfriendly.format_size(src["size"]) + " | "
             message += time.strftime("%Y-%m-%d", time.gmtime(src["mtime"])) + "    \n"
 
-        message += "\n[More results for this query](https://the-eye.eu/search?q=" + query + ") |" \
+        message += "\n[More results for this query](https://od-db.the-eye.eu/search?q=" + query + ") |" \
                    " [OD-Database](https://od-db.the-eye.eu/)"
 
         return message

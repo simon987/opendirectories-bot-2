@@ -50,6 +50,7 @@ def process_url(comment, bot, url):
     if not is_valid_url(url):
         print("Url is invalid")
         handle_invalid_url(comment, bot, url)
+        return
 
     if od_db_client.website_is_blacklisted(url):
         print("Website is blacklisted")
@@ -121,13 +122,48 @@ def handle_existing_website(comment, bot, website_id):
     bot.reply(comment, message)
 
 
+def process_post(submission):
+    print("Checking new post with url " + submission.url)
+    url = os.path.join(submission.url, "")
+
+    if not is_valid_url(url):
+        print("Url is invalid")
+        return
+
+    if od_db_client.website_is_blacklisted(url):
+        print("Website is blacklisted")
+        return
+
+    url = get_top_directory(url)
+    website_id = od_db_client.website_by_url(url)
+
+    if not website_id:
+        print("Website does not exist")
+
+        if not is_od(url):
+            print("Website is not an od")
+            return
+
+        handle_new_website(submission, bot, url)
+    else:
+        print("Website already exists")
+        handle_existing_website(submission, bot, website_id)
+
+
 if __name__ == "__main__":
     reddit = praw.Reddit('opendirectories-bot',
                          user_agent='github.com/simon987/opendirectories-bot-new (by /u/Hexahedr_n)')
     bot = RedditBot("processed.txt", reddit)
     subreddit = reddit.subreddit("test")
 
+    # Check comments
     for comment in subreddit.comments(limit=50):
         if not bot.has_crawled(comment):
             process_comment(comment, bot)
+
+    # Check submissions
+    for submission in subreddit.new(limit=3):
+        if not submission.is_self and not bot.has_crawled(submission):
+            process_post(submission)
+
 
