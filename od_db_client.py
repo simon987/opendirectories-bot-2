@@ -90,33 +90,36 @@ class OdDatabase:
     @staticmethod
     def format_search_hits(hits, query):
 
-        message = str(hits["hits"]["total"]) + " matches found in " + str(hits["took"]) + "ms for query `" + query + "`:    \n\n"
-        message += "File | Size | Date    \n"
-        message += ":-- | :-- | --:    \n"
+        message = str(hits["hits"]["total"]) + " matches found in " + str(hits["took"]) + "ms for query `" + query + "`"
+        if hits["hits"]["total"] > 0:
+            message += ":    \n\n"
+            message += ":-- | :-- | --:    \n"
 
-        for hit in hits["hits"]["hits"]:
-            src = hit["_source"]
+            for hit in hits["hits"]["hits"]:
+                src = hit["_source"]
 
-            # File name highlight
-            if "name" in hit["highlight"]:
-                hl_name = format_highlight(hit["highlight"]["name"][0])
-            elif "name.nGram" in hit["highlight"]:
-                hl_name = format_highlight(hit["highlight"]["name.nGram"][0])
-            else:
-                hl_name = src["name"]
+                # File name highlight
+                if "name" in hit["highlight"]:
+                    hl_name = format_highlight(hit["highlight"]["name"][0])
+                elif "name.nGram" in hit["highlight"]:
+                    hl_name = format_highlight(hit["highlight"]["name.nGram"][0])
+                else:
+                    hl_name = src["name"]
 
-            # Path highlight
-            if "path" in hit["highlight"]:
-                hl_path = format_highlight(hit["highlight"]["path"][0])
-            else:
-                hl_path = src["path"]
-            hl_path = truncate_path(hl_path, 65)
-            hl_path += "/" if hl_path else ""
+                # Path highlight
+                if "path" in hit["highlight"]:
+                    hl_path = format_highlight(hit["highlight"]["path"][0])
+                else:
+                    hl_path = src["path"]
+                hl_path = truncate_path(hl_path, 65)
+                hl_path += "/" if hl_path else ""
 
-            message += "[" + src["website_url"] + "](https://od-db.the-eye.eu/website/" + str(src["website_id"]) + "/)" + hl_path
-            message += hl_name + ("." if src["ext"] else "") + src["ext"] + " | "
-            message += humanfriendly.format_size(src["size"]) + " | "
-            message += time.strftime("%Y-%m-%d", time.gmtime(src["mtime"])) + "    \n"
+                message += "[" + src["website_url"] + "](https://od-db.the-eye.eu/website/" + str(src["website_id"]) + "/)" + hl_path
+                message += hl_name + ("." if src["ext"] else "") + src["ext"] + " | "
+                message += humanfriendly.format_size(src["size"]) + " | "
+                message += time.strftime("%Y-%m-%d", time.gmtime(src["mtime"])) + "    \n"
+        else:
+            message += "\n"
 
         message += "\n[More results for this query](https://od-db.the-eye.eu/search?q=" + query + ") |" \
                    " [OD-Database](https://od-db.the-eye.eu/)"
