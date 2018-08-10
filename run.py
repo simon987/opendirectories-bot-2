@@ -18,7 +18,10 @@ def process_comment(comment, bot):
     text = PATTERN.sub(" ", comment.body).strip()
 
     if text.startswith("u/opendirectories-bot") or text.startswith("/u/opendirectories-bot"):
-        lines = shlex.split(text,)
+        try:
+            lines = shlex.split(text)
+        except ValueError:
+            return
         if len(lines) > 1:
             text = lines[1]
             if text.startswith("?"):
