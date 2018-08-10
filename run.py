@@ -32,7 +32,7 @@ def process_query(comment, bot, query):
     print("Search query '" + query + "'")
 
     hits = od_db_client.search(
-        query, 0, 10,
+        query, 0, 6,
         "score", [],
         0, 0,
         False, ["path", "name^5", "name.nGram^2"],
