@@ -23,7 +23,11 @@ def process_comment(comment, bot):
         except ValueError:
             return
         if len(lines) > 1:
-            text = lines[1]
+            if lines[1] == "https://www.reddit.com/u/opendirectories-bot" and len(lines) > 2:
+                text = lines[2]
+            else:
+                text = lines[1]
+
             if text.startswith("?"):
                 process_query(comment, bot, text[1:])
             else:
