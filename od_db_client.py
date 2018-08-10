@@ -90,11 +90,11 @@ class OdDatabase:
     @staticmethod
     def format_search_hits(hits, query):
 
-        message = str(hits["hits"]["total"]) + " matches found in " + str(hits["took"]) + "ms for query `" + query + "`"
+        message = "**" + str(hits["hits"]["total"]) + "** matches found in " + str(hits["took"]) + "ms for query `" + query + "`"
         if hits["hits"]["total"] > 0:
             message += ":    \n\n"
-            message += "File | Size | Date     \n"
-            message += ":-- | :-- | --:    \n"
+            message += "File | Size     \n"
+            message += ":-- | --:    \n"
 
             for hit in hits["hits"]["hits"]:
                 src = hit["_source"]
