@@ -112,7 +112,7 @@ class OdDatabase:
                     hl_path = format_highlight(hit["highlight"]["path"][0])
                 else:
                     hl_path = src["path"]
-                hl_path = truncate_path(hl_path, 65)
+                hl_path = truncate_path(hl_path, 35)
                 hl_path += "/" if hl_path else ""
 
                 message += "[" + src["website_url"] + "](https://od-db.the-eye.eu/website/" + str(src["website_id"]) + "/)" + hl_path
