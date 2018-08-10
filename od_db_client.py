@@ -107,18 +107,9 @@ class OdDatabase:
                 else:
                     hl_name = src["name"]
 
-                # Path highlight
-                if "path" in hit["highlight"]:
-                    hl_path = format_highlight(hit["highlight"]["path"][0])
-                else:
-                    hl_path = src["path"]
-                hl_path = truncate_path(hl_path, 35)
-                hl_path += "/" if hl_path else ""
-
-                message += "[" + src["website_url"] + "](https://od-db.the-eye.eu/website/" + str(src["website_id"]) + "/)" + hl_path
+                message += "[" + src["website_url"] + "](https://od-db.the-eye.eu/website/" + str(src["website_id"]) + "/).../"
                 message += hl_name + ("." if src["ext"] else "") + src["ext"] + " | "
-                message += humanfriendly.format_size(src["size"]) + " | "
-                message += time.strftime("%Y-%m-%d", time.gmtime(src["mtime"])) + "    \n"
+                message += humanfriendly.format_size(src["size"]) + "    \n"
         else:
             message += "\n"
 
