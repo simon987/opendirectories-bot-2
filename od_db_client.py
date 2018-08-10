@@ -93,6 +93,7 @@ class OdDatabase:
         message = str(hits["hits"]["total"]) + " matches found in " + str(hits["took"]) + "ms for query `" + query + "`"
         if hits["hits"]["total"] > 0:
             message += ":    \n\n"
+            message += "File | Size | Date     \n"
             message += ":-- | :-- | --:    \n"
 
             for hit in hits["hits"]["hits"]:
